@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7fa; /* Light sea color */
+    color: #004d40; /* Dark sea color for text */
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #00796b; /* Main heading color */
+}
+
+.manager-button {
+    background-color: #00897b; /* Sea-themed button color */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s; /* Add transition for background color */
+}
+
+.manager-button:hover {
+    transform: scale(1.05); /* Button pop out effect */
+    background-color: #004d40; /* Darker shade on hover */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+th {
+    background-color: #a7ffeb; /* Light sea-themed color for header */
+    color: #004d40; /* Darker text for header */
+}
+#commission-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#commission-table th, #commission-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#commission-table th {
+    background-color: #004d40; /* Header background */
+    color: white;
+}

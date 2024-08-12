@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <link rel="stylesheet" href="employees.css">
+</head>
+<body>
+    <script>
+        const password = prompt("Enter password to access this page:");
+        if (password !== "OWNER") {
+            alert("Access denied!");
+            window.location.href = "index.html"; // Redirect to the form page
+        }
+    </script>
+
+    <h1>Employee List</h1>
+    
+    <div class="sidebar">
+        <button class="manager-button" onclick="location.href='index.html'">Back to Form</button>
+        <button class="manager-button" onclick="location.href='data.html'">Manager Only!</button>
+    </div>
+
+    <h2>Add New Employee</h2>
+    <form id="employee-form">
+        <input type="text" id="employeeName" required placeholder="Employee Name">
+        <input type="text" id="employeePosition" required placeholder="Position">
+        <input type="text" id="employeeContact" required placeholder="Contact Info">
+        <input type="text" id="employeeStateId" required placeholder="State ID">
+        <button type="submit">Add Employee</button>
+    </form>
+
+    <h2>Employees</h2>
+    <table id="employee-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Contact</th>
+                <th>State ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Employee data will be populated here -->
+        </tbody>
+    </table>
+
+    <script>
+        let editingIndex = -1; // Track which row is being edited
+
+        function loadEmployees() {
+            const employees = JSON.parse(localStorage.getItem('employees')) || [];
+            const tableBody = document.getElementById('employee-table').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ""; // Clear existing rows
+
+            employees.forEach((employee, index) => {
+                const newRow = tableBody.insertRow();
+                newRow.insertCell(0).innerText = employee.name;
+                newRow.insertCell(1).innerText = employee.position;
+                newRow.insertCell(2).innerText = employee.contact;
+                newRow.insertCell(3).innerText = employee.stateId;
+
+                // Create actions cell
+                const actionsCell = newRow.insertCell(4);
+                
+                // Create edit button
+const editButton = document.createElement("button");
+editButton.innerText = "Edit";
+editButton.className = "manager-button"; // Add the class for styling
+editButton.onclick = () => editEmployee(index);
+actionsCell.appendChild(editButton);
+
+// Create delete button
+const deleteButton = document.createElement("button");
+deleteButton.innerText = "Delete";
+deleteButton.className = "manager-button"; // Add the class for styling
+deleteButton.onclick = () => confirmDelete(index);
+actionsCell.appendChild(deleteButton);
+
+            });
+        }
+
+        function editEmployee(index) {
+            const employees = JSON.parse(localStorage.getItem('employees')) || [];
+            const employee = employees[index];
+
+            document.getElementById('employeeName').value = employee.name;
+            document.getElementById('employeePosition').value = employee.position;
+            document.getElementById('employeeContact').value = employee.contact;
+            document.getElementById('employeeStateId').value = employee.stateId;
+
+            editingIndex = index; // Set editing index
+            document.querySelector("button[type='submit']").innerText = "Save Changes"; // Change button text
+        }
+
+        function confirmDelete(index) {
+            const confirmation = confirm("Are you sure you want to delete?");
+            if (confirmation) {
+                deleteEmployee(index);
+            }
+        }
+
+        function addEmployee(event) {
+            event.preventDefault();
+            const name = document.getElementById('employeeName').value;
+            const position = document.getElementById('employeePosition').value;
+            const contact = document.getElementById('employeeContact').value;
+            const stateId = document.getElementById('employeeStateId').value;
+
+            const employees = JSON.parse(localStorage.getItem('employees')) || [];
+
+            if (editingIndex > -1) {
+                // Edit existing employee
+                employees[editingIndex] = { name, position, contact, stateId };
+                editingIndex = -1; // Reset editing index
+                document.querySelector("button[type='submit']").innerText = "Add Employee"; // Reset button text
+            } else {
+                // Add new employee
+                employees.push({ name, position, contact, stateId });
+            }
+
+            localStorage.setItem('employees', JSON.stringify(employees));
+            loadEmployees();
+            document.getElementById('employee-form').reset(); // Clear the form
+        }
+
+        function deleteEmployee(index) {
+            const employees = JSON.parse(localStorage.getItem('employees')) || [];
+            employees.splice(index, 1); // Remove the employee
+            localStorage.setItem('employees', JSON.stringify(employees));
+            loadEmployees(); // Refresh the table
+        }
+
+        document.getElementById('employee-form').addEventListener('submit', addEmployee);
+        window.onload = loadEmployees;
+
+        // Inside the loadEmployees function
+const editButton = document.createElement("button");
+editButton.innerText = "Edit";
+editButton.className = "manager-button edit-button"; // Add class for styling
+editButton.onclick = () => editEmployee(index);
+actionsCell.appendChild(editButton);
+
+const deleteButton = document.createElement("button");
+deleteButton.innerText = "Delete";
+deleteButton.className = "manager-button delete-button"; // Add class for styling
+deleteButton.onclick = () => confirmDelete(index);
+actionsCell.appendChild(deleteButton);
+
+    </script>
+    
+    
+</body>
+</html>

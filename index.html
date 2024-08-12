@@ -1,7 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Pearl's Seafood Commission</title>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <h1>Welcome to Pearl's Seafood Commission</h1>
+    <h4>Please List Your Information Below So We Can Accurately Give You Your Commission</h4>
+    <br><br>
+
+    <!-- Form Section -->
+    <form id="submission-form">
+        <input type="text" name="name" required placeholder="Your Name">
+        <input type="text" name="stateId" required placeholder="State ID">
+        <input type="number" name="price" required placeholder="Price">
+        <input type="hidden" name="timestamp" id="timestamp">
+        <button type="submit">Submit</button>
+    </form>
+
+    <div class="sidebar">
+        <button class="manager-button" onclick="location.href='data.html'">Manager Only!</button>
+        <!-- Add more buttons here if needed -->
+    </div>
+
+    <script>
+        // Handle form submission
+        document.getElementById("submission-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            const name = document.querySelector("input[name='name']").value;
+            const stateId = document.querySelector("input[name='stateId']").value;
+            const price = parseFloat(document.querySelector("input[name='price']").value);
+            const timestamp = new Date().toISOString();
+
+            // Check if the state ID is employed
+            const position = getPosition(stateId);
+            if (!position) {
+                alert("State ID not found. Please ensure the employee is registered.");
+                return; // Stop submission
+            }
+
+            // Get the commission rate based on position
+            const commissionRate = getCommission(position);
+
+            // Calculate the commission based on the price
+            const commission = price * commissionRate;
+
+            // Retrieve existing data or initialize an empty array
+            const data = JSON.parse(localStorage.getItem('formData')) || [];
+        
+            // Add new submission to the data array
+            data.push({ name, stateId, price, position, commissionRate, commission, timestamp });
+        
+            // Store updated data back in localStorage
+            localStorage.setItem('formData', JSON.stringify(data));
+        
+            alert("Data submitted successfully!");
+        });
+
+        // Get the position of the employee based on State ID
+        function getPosition(stateId) {
+            const employees = JSON.parse(localStorage.getItem('employees')) || [];
+            const employee = employees.find(emp => emp.stateId === stateId);
+            return employee ? employee.position : null; // Return position or null
+        }
+
+        // Get commission rate based on position
+        function getCommission(position) {
+            const commissions = {
+                "CEO": 0.10,
+                "Manager": 0.07,
+                "Cook": 0.05,
+                "Waiter": 0.03
+                // Add more positions and their respective commissions here
+            };
+            return commissions[position] || 0; // Default to 0 if position not found
+        }
+
+        // Set timestamp when form is submitted
+        document.getElementById("submission-form").addEventListener("submit", function() {
+            const timestampField = document.getElementById("timestamp");
+            timestampField.value = new Date().toISOString(); // Set the current timestamp
+        });
+    </script>
 </body>
 </html>

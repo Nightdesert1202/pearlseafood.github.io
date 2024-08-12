@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7fa; /* Light sea color */
+    color: #005f6b; /* Darker text color */
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #00796b; /* Deep teal for headers */
+}
+
+.sidebar {
+    position: fixed;
+    top: 20%;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.manager-button {
+    background-color: #00897b; /* Sea-themed button color */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s; /* Add transition for background color */
+}
+
+.manager-button:hover {
+    transform: scale(1.05); /* Button pop out effect */
+    background-color: #004d40; /* Darker shade on hover */
+}
+
+
+form {
+    margin-top: 20px;
+    margin-left: 160px; /* Avoid overlap with sidebar */
+    background: #ffffff; /* White background for form */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    width: calc(100% - 22px); /* Full width inputs */
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button[type='submit'], .edit-button, .delete-button {
+    background-color: #00796b; /* Match theme */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type='submit']:hover, .edit-button:hover, .delete-button:hover {
+    background-color: #004d40; /* Darker shade on hover */
+    transform: scale(1.05); /* Button pop out effect */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #b2dfdb; /* Light teal for table headers */
+}
+
+.logo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 100px; /* Adjust size as needed */
+    height: auto;
+}
